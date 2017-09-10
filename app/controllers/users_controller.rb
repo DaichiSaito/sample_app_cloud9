@@ -20,10 +20,15 @@ class UsersController < ApplicationController
     # @user = User.new(params[:user])    # 実装は終わっていないことに注意!
     @user = User.new(user_params)
     if @user.save
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
+      
+      
       # 保存の成功をここで扱う。
-      log_in @user # セッションヘルパーのヘルパーメソッド
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      # log_in @user # セッションヘルパーのヘルパーメソッド
+      # flash[:success] = "Welcome to the Sample App!"
+      # redirect_to @user
     else
       render 'new'
     end
